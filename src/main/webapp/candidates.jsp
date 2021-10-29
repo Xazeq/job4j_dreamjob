@@ -19,6 +19,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
     <title>Работа мечты</title>
 </head>
 <body>
@@ -36,16 +37,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <% for (Candidate can : (Collection<Candidate>) request.getAttribute("candidates")) { %>
-                    <tr>
-                        <td>
-                            <a href="<%=request.getContextPath()%>/candidate/edit.jsp?id=<%=can.getId()%>">
-                                <i class="fa fa-edit mr-3"></i>
-                            </a>
-                            <%= can.getName() %>
-                        </td>
-                    </tr>
-                    <% } %>
+                    <c:forEach items="${candidates}" var="candidate">
+                        <tr>
+                            <td>
+                                <a href='<c:url value="/candidate/edit.jsp?id=${candidate.id}"/>'>
+                                    <i class="fa fa-edit mr-3"></i>
+                                </a>
+                                <c:out value="${candidate.name}"/>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
