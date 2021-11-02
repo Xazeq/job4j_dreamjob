@@ -34,6 +34,10 @@
                     <thead>
                     <tr>
                         <th scope="col">Названия</th>
+                        <th scope="col">Фото</th>
+                        <th scope="col">Добавить фото</th>
+                        <th scope="col">Удалить фото</th>
+                        <th scope="col">Удалить кандидата</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -41,9 +45,27 @@
                         <tr>
                             <td>
                                 <a href='<c:url value="/candidate/edit.jsp?id=${candidate.id}"/>'>
-                                    <i class="fa fa-edit mr-3"></i>
+                                    <i class="fa fa-edit mr-3 fa-2x"></i>
                                 </a>
                                 <c:out value="${candidate.name}"/>
+                            </td>
+                            <td>
+                                <img src="<c:url value='/download.do?id=${candidate.id}'/>" width="150px" height="150px"/>
+                            </td>
+                            <td>
+                                <a href='<c:url value="/photoUpload.jsp?id=${candidate.id}"/>'>
+                                    <i class="fa fa-plus-square-o mr-3 fa-2x" ></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href='<c:url value="/deleteCandidatePhoto.do?id=${candidate.id}"/>'>
+                                    <i class="fa fa-trash-o mr-3 fa-2x"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href='<c:url value="/deleteCandidate.do?id=${candidate.id}"/>'>
+                                    <i class="fa fa-trash-o mr-3 fa-2x"></i>
+                                </a>
                             </td>
                         </tr>
                     </c:forEach>
