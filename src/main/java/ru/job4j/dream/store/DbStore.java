@@ -1,9 +1,10 @@
 package ru.job4j.dream.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.sql.Connection;
@@ -17,6 +18,7 @@ import java.util.Properties;
 public class DbStore implements Store {
     private static final DbStore INSTANCE = new DbStore();
     private final BasicDataSource pool = new BasicDataSource();
+    private static final Logger LOG = LoggerFactory.getLogger(DbStore.class.getName());
 
     private DbStore() {
         Properties cfg = new Properties();
@@ -28,7 +30,7 @@ public class DbStore implements Store {
         )) {
             cfg.load(in);
         } catch (Exception e) {
-            throw new IllegalStateException(e);
+            LOG.error("Exception in DbStore constructor", e);
         }
         pool.setDriverClassName(cfg.getProperty("jdbc.driver"));
         pool.setUrl(cfg.getProperty("jdbc.url"));
@@ -59,7 +61,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception in findAllPosts method", e);
         }
         return posts;
     }
@@ -76,7 +78,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception in findAllCandidates method", e);
         }
         return candidates;
     }
@@ -103,7 +105,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception in create method", e);
         }
         return post;
     }
@@ -116,7 +118,7 @@ public class DbStore implements Store {
             ps.setInt(2, post.getId());
             ps.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception in update method", e);
         }
     }
 
@@ -142,7 +144,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception in create method", e);
         }
         return candidate;
     }
@@ -155,7 +157,7 @@ public class DbStore implements Store {
             ps.setInt(2, candidate.getId());
             ps.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception in update method", e);
         }
     }
 
@@ -171,7 +173,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception in findPostById method", e);
         }
         return null;
     }
@@ -188,7 +190,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception in findCandidateById method", e);
         }
         return null;
     }
@@ -201,7 +203,7 @@ public class DbStore implements Store {
             ps.setInt(1, id);
             ps.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception in deleteCandidate method", e);
         }
     }
 }

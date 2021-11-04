@@ -1,5 +1,7 @@
 package ru.job4j.dream.store;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
 
@@ -18,12 +20,13 @@ public class MemStore implements Store {
     private static AtomicInteger postId = new AtomicInteger(4);
     private static AtomicInteger candidateId = new AtomicInteger(4);
     private final Properties cfg = new Properties();
+    private static final Logger LOG = LoggerFactory.getLogger(MemStore.class.getName());
 
     private MemStore() {
         try (InputStream in = MemStore.class.getClassLoader().getResourceAsStream("app.properties")) {
             cfg.load(in);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Exception in MemStore constructor", e);
         }
         posts.put(1, new Post(1, "Junior Java Job", "Description for Junior Java Job"));
         posts.put(2, new Post(2, "Middle Java Job", "Description for Middle Java Job"));
