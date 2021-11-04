@@ -1,6 +1,6 @@
 package ru.job4j.servlets;
 
-import ru.job4j.dream.store.Store;
+import ru.job4j.dream.store.MemStore;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class DownloadServlet extends HttpServlet {
-    private final Properties cfg = Store.instOf().getConfig();
+    private final Properties cfg = MemStore.instOf().getConfig();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

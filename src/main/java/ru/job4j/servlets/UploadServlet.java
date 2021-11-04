@@ -4,7 +4,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import ru.job4j.dream.store.Store;
+import ru.job4j.dream.store.MemStore;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class UploadServlet extends HttpServlet {
-    private final Properties cfg = Store.instOf().getConfig();
+    private final Properties cfg = MemStore.instOf().getConfig();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
