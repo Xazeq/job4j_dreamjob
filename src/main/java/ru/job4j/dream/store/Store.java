@@ -4,6 +4,7 @@ import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
 
 import java.util.Collection;
+import java.util.Properties;
 
 public interface Store {
     Collection<Post> findAllPosts();
@@ -13,4 +14,5 @@ public interface Store {
     Post findPostById(int id);
     Candidate findCandidateById(int id);
     void deleteCandidate(int id);
+    Properties getConfig();
 }

@@ -19,13 +19,14 @@ public class DbStore implements Store {
     private static final DbStore INSTANCE = new DbStore();
     private final BasicDataSource pool = new BasicDataSource();
     private static final Logger LOG = LoggerFactory.getLogger(DbStore.class.getName());
+    private final Properties cfg = new Properties();
 
     private DbStore() {
-        Properties cfg = new Properties();
+        //Properties cfg = new Properties();
         try (BufferedReader in = new BufferedReader(
                 new InputStreamReader(
                         DbStore.class.getClassLoader()
-                                .getResourceAsStream("db.properties")
+                                .getResourceAsStream("app.properties")
                 )
         )) {
             cfg.load(in);
@@ -47,6 +48,10 @@ public class DbStore implements Store {
 
     public static Store instOf() {
         return Lazy.INST;
+    }
+
+    public Properties getConfig() {
+        return cfg;
     }
 
     @Override
