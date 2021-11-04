@@ -22,7 +22,6 @@ public class DbStore implements Store {
     private final Properties cfg = new Properties();
 
     private DbStore() {
-        //Properties cfg = new Properties();
         try (BufferedReader in = new BufferedReader(
                 new InputStreamReader(
                         DbStore.class.getClassLoader()
