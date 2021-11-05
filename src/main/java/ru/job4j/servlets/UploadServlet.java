@@ -44,6 +44,7 @@ public class UploadServlet extends HttpServlet {
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
+        req.setAttribute("user", req.getSession().getAttribute("user"));
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
 }
