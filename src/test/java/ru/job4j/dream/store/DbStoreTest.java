@@ -11,8 +11,7 @@ import static org.hamcrest.Matchers.is;
 public class DbStoreTest {
     @Before
     public void clearTable() {
-        DbStore.instOf().clearTable("post");
-        DbStore.instOf().clearTable("candidate");
+        DbStore.instOf().clearTables();
     }
 
     @Test
@@ -78,7 +77,7 @@ public class DbStoreTest {
         Store store = DbStore.instOf();
         Candidate candidate = new Candidate(0, "Java Developer");
         store.save(candidate);
-        store.deleteCandidate(1);
+        store.deleteCandidate(candidate.getId());
         int candidatesSizeInDb = store.findAllCandidates().size();
         assertThat(candidatesSizeInDb, is(0));
     }
