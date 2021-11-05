@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -208,6 +209,16 @@ public class DbStore implements Store {
             ps.execute();
         } catch (Exception e) {
             LOG.error("Exception in deleteCandidate method", e);
+        }
+    }
+
+    public void clearTable(String tableName) {
+        try (Connection cn = pool.getConnection();
+             Statement ps = cn.createStatement()
+        ) {
+            ps.execute("TRUNCATE TABLE " + tableName + " RESTART IDENTITY");
+        } catch (Exception e) {
+            LOG.error("Exception in clearTable method", e);
         }
     }
 }

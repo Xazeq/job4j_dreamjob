@@ -80,4 +80,8 @@ public class MemStore implements Store {
             candidates.remove(id);
         }
     }
+
+    @Override
+    public void clearTable(String tableName) {
+    }
 }
