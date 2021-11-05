@@ -82,6 +82,6 @@ public class MemStore implements Store {
     }
 
     @Override
-    public void clearTable(String tableName) {
+    public void clearTables() {
     }
 }

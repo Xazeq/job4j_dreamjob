@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,16 +21,20 @@ public class DbStore implements Store {
     private static final DbStore INSTANCE = new DbStore();
     private final BasicDataSource pool = new BasicDataSource();
     private static final Logger LOG = LoggerFactory.getLogger(DbStore.class.getName());
-    private final Properties cfg = new Properties();
+    private final Properties appCfg = new Properties();
 
     private DbStore() {
+        Properties cfg = new Properties();
         try (BufferedReader in = new BufferedReader(
                 new InputStreamReader(
                         DbStore.class.getClassLoader()
-                                .getResourceAsStream("app.properties")
+                                .getResourceAsStream("db.properties")
                 )
-        )) {
+        );
+             InputStream appIn = DbStore.class.getClassLoader()
+                     .getResourceAsStream("app.properties")) {
             cfg.load(in);
+            appCfg.load(appIn);
         } catch (Exception e) {
             LOG.error("Exception in DbStore constructor", e);
         }
@@ -51,7 +56,7 @@ public class DbStore implements Store {
     }
 
     public Properties getConfig() {
-        return cfg;
+        return appCfg;
     }
 
     @Override
@@ -212,11 +217,13 @@ public class DbStore implements Store {
         }
     }
 
-    public void clearTable(String tableName) {
+    @Override
+    public void clearTables() {
         try (Connection cn = pool.getConnection();
-             Statement ps = cn.createStatement()
+             Statement statement = cn.createStatement()
         ) {
-            ps.execute("TRUNCATE TABLE " + tableName + " RESTART IDENTITY");
+            statement.execute("TRUNCATE TABLE post RESTART IDENTITY");
+            statement.execute("TRUNCATE TABLE candidate RESTART IDENTITY");
         } catch (Exception e) {
             LOG.error("Exception in clearTable method", e);
         }

@@ -15,5 +15,5 @@ public interface Store {
     Candidate findCandidateById(int id);
     void deleteCandidate(int id);
     Properties getConfig();
-    void clearTable(String tableName);
+    void clearTables();
 }
