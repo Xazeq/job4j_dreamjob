@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
-
+import ru.job4j.dream.model.User;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
@@ -17,8 +17,10 @@ public class MemStore implements Store {
     private static final Store INST = new MemStore();
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
+    private final Map<Integer, User> users = new ConcurrentHashMap<>();
     private static AtomicInteger postId = new AtomicInteger(4);
     private static AtomicInteger candidateId = new AtomicInteger(4);
+    private static AtomicInteger userId = new AtomicInteger(4);
     private final Properties cfg = new Properties();
     private static final Logger LOG = LoggerFactory.getLogger(MemStore.class.getName());
 
@@ -34,6 +36,9 @@ public class MemStore implements Store {
         candidates.put(1, new Candidate(1, "Junior Java"));
         candidates.put(2, new Candidate(2, "Middle Java"));
         candidates.put(3, new Candidate(3, "Senior Java"));
+        users.put(1, new User("user1", "user1@mail.ru", "12345"));
+        users.put(2, new User("user2", "user2@mail.ru", "12345"));
+        users.put(3, new User("user3", "user3@mail.ru", "12345"));
     }
 
     public static Store instOf() {
@@ -83,5 +88,33 @@ public class MemStore implements Store {
 
     @Override
     public void clearTables() {
+    }
+
+    @Override
+    public Collection<User> findAllUsers() {
+        return users.values();
+    }
+
+    @Override
+    public void save(User user) {
+        if (user.getId() == 0) {
+            user.setId(userId.incrementAndGet());
+        }
+        users.put(user.getId(), user);
+    }
+
+    @Override
+    public User findUserById(int id) {
+        return users.get(id);
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        for (var user : users.values()) {
+            if (email.equals(user.getEmail())) {
+                return user;
+            }
+        }
+        return null;
     }
 }
