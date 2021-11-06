@@ -9,15 +9,15 @@ import java.util.Properties;
 public interface Store {
     Collection<Post> findAllPosts();
     Collection<Candidate> findAllCandidates();
+    Collection<User> findAllUsers();
     void save(Post post);
     void save(Candidate candidate);
+    void save(User user);
     Post findPostById(int id);
     Candidate findCandidateById(int id);
+    User findUserById(int id);
     void deleteCandidate(int id);
     Properties getConfig();
     void clearTables();
-    Collection<User> findAllUsers();
-    void save(User user);
-    User findUserById(int id);
     User findUserByEmail(String email);
 }
