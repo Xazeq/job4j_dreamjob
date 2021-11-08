@@ -264,8 +264,8 @@ public class DbStore implements Store {
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, user.getName());
-            ps.setString(1, user.getEmail());
-            ps.setString(1, user.getPassword());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -284,9 +284,9 @@ public class DbStore implements Store {
                      "UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?")
         ) {
             ps.setString(1, user.getName());
-            ps.setString(1, user.getEmail());
-            ps.setString(1, user.getPassword());
-            ps.setInt(2, user.getId());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.setInt(4, user.getId());
             ps.execute();
         } catch (Exception e) {
             LOG.error("Exception in update method", e);
