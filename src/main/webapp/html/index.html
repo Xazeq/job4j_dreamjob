@@ -7,6 +7,22 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function validate() {
+            let result = true;
+            if ($('#name').val() === '') {
+                alert($('#name').attr('title'));
+                result = false;
+            } else if ($('#surname').val() === '') {
+                alert($('#surname').attr('title'));
+                result = false;
+            } else if ($('#description').val() === '') {
+                alert($('#description').attr('title'));
+                result = false;
+            }
+            return result;
+        }
+    </script>
 </head>
 <body>
 <div class="container-fluid">
@@ -14,11 +30,11 @@
     <form>
         <div class="form-group">
             <label for="name">Имя</label>
-            <input type="text" class="form-control" id="name">
+            <input type="text" class="form-control" id="name" title="Поле Имя не заполнено">
         </div>
         <div class="form=group">
             <label for="surname">Фамилия</label>
-            <input type="text" class="form-control" id="surname">
+            <input type="text" class="form-control" id="surname" title="Поле Фамилия не заполнено">
         </div>
         <div class="form-group">
             <label for="sex">Пол</label>
@@ -29,8 +45,9 @@
         </div>
         <div class="form-group">
             <label for="description">Описание</label>
-            <input type="text" class="form-control" id="description">
+            <input type="text" class="form-control" id="description" title="Поле Описание не заполнено">
         </div>
+        <button type="button" class="btn btn-default" onclick="return validate();">Submit</button>
     </form>
     <br>
     <table class="table">
