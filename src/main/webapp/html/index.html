@@ -10,6 +10,10 @@
     <script>
         function validate() {
             let result = true;
+            let name = $('#name').val();
+            let surname = $('#surname').val();
+            let sex = $('#sex').val();
+            let description = $('#description').val();
             if ($('#name').val() === '') {
                 alert($('#name').attr('title'));
                 result = false;
@@ -19,6 +23,12 @@
             } else if ($('#description').val() === '') {
                 alert($('#description').attr('title'));
                 result = false;
+            } else {
+                $('#table tr:last').after('<tr><td>' + name + '</td>'
+                    + '<td>' + surname + '</td>'
+                    + '<td>' + sex + '</td>'
+                    + '<td>' + description + '</td>'
+                )
             }
             return result;
         }
@@ -47,13 +57,12 @@
             <label for="description">Описание</label>
             <input type="text" class="form-control" id="description" title="Поле Описание не заполнено">
         </div>
-        <button type="button" class="btn btn-default" onclick="return validate();">Submit</button>
+        <button type="button" class="btn btn-default" onclick="return validate();">Добавить</button>
     </form>
     <br>
-    <table class="table">
+    <table class="table" id="table">
         <thead>
         <tr>
-            <th>#</th>
             <th>Имя</th>
             <th>Фамилия</th>
             <th>Пол</th>
@@ -62,28 +71,24 @@
         </thead>
         <tbody>
         <tr>
-            <th scope="row">1</th>
             <td>Вася</td>
             <td>Иванов</td>
             <td>Мужской</td>
             <td>Таксист</td>
         </tr>
         <tr>
-            <th scope="row">2</th>
             <td>Анна</td>
             <td>Сидорова</td>
             <td>Женский</td>
             <td>Кассир</td>
         </tr>
         <tr>
-            <th scope="row">3</th>
             <td>Егор</td>
             <td>Петров</td>
             <td>Мужской</td>
             <td>Сантехник</td>
         </tr>
         <tr>
-            <th scope="row">4</th>
             <td>Иван</td>
             <td>Титов</td>
             <td>Мужской</td>
