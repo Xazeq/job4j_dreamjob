@@ -10,10 +10,6 @@
     <script>
         function validate() {
             let result = true;
-            let name = $('#name').val();
-            let surname = $('#surname').val();
-            let sex = $('#sex').val();
-            let description = $('#description').val();
             if ($('#name').val() === '') {
                 alert($('#name').attr('title'));
                 result = false;
@@ -23,14 +19,25 @@
             } else if ($('#description').val() === '') {
                 alert($('#description').attr('title'));
                 result = false;
-            } else {
-                $('#table tr:last').after('<tr><td>' + name + '</td>'
-                    + '<td>' + surname + '</td>'
-                    + '<td>' + sex + '</td>'
-                    + '<td>' + description + '</td>'
-                )
             }
             return result;
+        }
+    </script>
+    <script>
+        function addRow() {
+            if (validate() === false) {
+                return false;
+            }
+            let name = $('#name').val();
+            let surname = $('#surname').val();
+            let sex = $('#sex').val();
+            let description = $('#description').val();
+            $('#table tr:last').after('<tr><td>' + name + '</td>'
+                + '<td>' + surname + '</td>'
+                + '<td>' + sex + '</td>'
+                + '<td>' + description + '</td>'
+            )
+            return true;
         }
     </script>
 </head>
@@ -57,7 +64,7 @@
             <label for="description">Описание</label>
             <input type="text" class="form-control" id="description" title="Поле Описание не заполнено">
         </div>
-        <button type="button" class="btn btn-default" onclick="return validate();">Добавить</button>
+        <button type="button" class="btn btn-default" onclick="return addRow();">Добавить</button>
     </form>
     <br>
     <table class="table" id="table">
