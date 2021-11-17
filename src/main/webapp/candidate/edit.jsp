@@ -21,7 +21,38 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
     <title>Работа мечты</title>
+    <jsp:include page="/header.jsp"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
+
+<script>
+    function validate() {
+        if ($('#name').val() === '') {
+            alert($('#name').attr('title'));
+            return false;
+        }
+        if ($('#cities').val() === 'Выберите город') {
+            alert($('#cities').attr('title'));
+            return false;
+        }
+        return true;
+    }
+
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/dreamjob/city',
+            dataType: 'json'
+        }).done(function (data) {
+            for (let city of data) {
+                $('#cities').append(`<option value="${city.id}">${city.name}</option>`)
+            }
+        }).fail(function (err) {
+            console.log(err);
+        });
+    });
+</script>
+
 <body>
 <%
     String id = request.getParameter("id");
@@ -32,7 +63,6 @@
 %>
 <div class="container pt-3">
     <div class="row">
-        <jsp:include page="/header.jsp"/>
         <div class="card" style="width: 100%">
             <div class="card-header">
                 <% if (id == null) { %>
@@ -45,9 +75,15 @@
                 <form action="<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>" method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
+                        <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>" id="name" title="Поле Имя не заполнено">
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <div class="form-group">
+                        <label for="cities">Город</label>
+                        <select class="form-control" id="cities" name="cities" title="Выберите город из списка">
+                            <option selected hidden>Выберите город</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" onclick="return validate()">Сохранить</button>
                 </form>
             </div>
         </div>

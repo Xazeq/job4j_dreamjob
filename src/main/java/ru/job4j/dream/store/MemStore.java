@@ -3,13 +3,13 @@ package ru.job4j.dream.store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Properties;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -18,9 +18,11 @@ public class MemStore implements Store {
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
     private final Map<Integer, User> users = new ConcurrentHashMap<>();
+    private final Map<Integer, City> cities = new ConcurrentHashMap<>();
     private static AtomicInteger postId = new AtomicInteger(4);
     private static AtomicInteger candidateId = new AtomicInteger(4);
     private static AtomicInteger userId = new AtomicInteger(4);
+    private static AtomicInteger cityId = new AtomicInteger(4);
     private final Properties cfg = new Properties();
     private static final Logger LOG = LoggerFactory.getLogger(MemStore.class.getName());
 
@@ -39,6 +41,9 @@ public class MemStore implements Store {
         users.put(1, new User("user1", "user1@mail.ru", "12345"));
         users.put(2, new User("user2", "user2@mail.ru", "12345"));
         users.put(3, new User("user3", "user3@mail.ru", "12345"));
+        cities.put(1, new City("Москва"));
+        cities.put(2, new City("Санкт-Петербург"));
+        cities.put(3, new City("Казань"));
     }
 
     public static Store instOf() {
@@ -116,5 +121,47 @@ public class MemStore implements Store {
             }
         }
         return null;
+    }
+
+    @Override
+    public Collection<City> findAllCities() {
+        return cities.values();
+    }
+
+    @Override
+    public City findCityByName(String name) {
+        for (var city : cities.values()) {
+            if (name.equals(city.getName())) {
+                return city;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Collection<Post> findLastDayPosts() {
+        List<Post> result = new ArrayList<>();
+        for (var post : posts.values()) {
+            if (LocalDate.now().equals(post.getCreated())) {
+                result.add(post);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Collection<Candidate> findLastDayCandidates() {
+        List<Candidate> result = new ArrayList<>();
+        for (var candidate : candidates.values()) {
+            if (LocalDate.now().equals(candidate.getCreationDate())) {
+                result.add(candidate);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public City findCityById(int id) {
+        return cities.get(id);
     }
 }

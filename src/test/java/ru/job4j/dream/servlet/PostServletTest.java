@@ -29,6 +29,7 @@ public class PostServletTest {
         HttpServletResponse resp = mock(HttpServletResponse.class);
         when(req.getParameter("id")).thenReturn("0");
         when(req.getParameter("name")).thenReturn("name of new post");
+        when(req.getParameter("description")).thenReturn("post description");
         new PostServlet().doPost(req, resp);
         Post post =  DbStore.instOf().findAllPosts().stream().findFirst().get();
         assertThat(post, notNullValue());
@@ -41,11 +42,13 @@ public class PostServletTest {
         HttpServletResponse resp = mock(HttpServletResponse.class);
         when(req.getParameter("id")).thenReturn("0");
         when(req.getParameter("name")).thenReturn("name of new post");
+        when(req.getParameter("description")).thenReturn("post description");
         PostServlet postServlet = new PostServlet();
         postServlet.doPost(req, resp);
         Post oldPost = DbStore.instOf().findAllPosts().stream().findFirst().get();
         when(req.getParameter("id")).thenReturn(String.valueOf(oldPost.getId()));
         when(req.getParameter("name")).thenReturn("new name");
+        when(req.getParameter("description")).thenReturn("post description");
         postServlet.doPost(req, resp);
         Post newPost =  DbStore.instOf().findAllPosts().stream().findFirst().get();
         assertThat(newPost, notNullValue());

@@ -1,14 +1,30 @@
 package ru.job4j.dream.model;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Candidate {
     private int id;
     private String name;
+    private City city;
+    private LocalDate creationDate = LocalDate.now();
 
     public Candidate(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Candidate(int id, String name, City city) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
+    }
+
+    public Candidate(int id, String name, City city, LocalDate creationDate) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
+        this.creationDate = creationDate;
     }
 
     public int getId() {
@@ -25,6 +41,22 @@ public class Candidate {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 
     @Override

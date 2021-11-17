@@ -20,18 +20,32 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
     <title>Работа мечты</title>
+    <jsp:include page="/header.jsp"/>
+
+    <script>
+        function validate() {
+            if ($('#name').val() === '') {
+                alert($('#name').attr('title'));
+                return false;
+            }
+            if ($('#description').val() === '') {
+                alert($('#description').attr("title"));
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
 <%
     String id = request.getParameter("id");
-    Post post = new Post(0, "");
+    Post post = new Post(0, "", "");
     if (id != null) {
         post = DbStore.instOf().findPostById(Integer.parseInt(id));
     }
 %>
 <div class="container pt-3">
     <div class="row">
-        <jsp:include page="/header.jsp"/>
         <div class="card" style="width: 100%">
             <div class="card-header">
                 <% if (id == null) { %>
@@ -44,9 +58,14 @@
                 <form action="<%=request.getContextPath()%>/posts.do?id=<%=post.getId()%>" method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name" value="<%=post.getName()%>">
+                        <input type="text" class="form-control" name="name" value="<%=post.getName()%>" id="name" title="Поле Имя не заполнено">
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <div class="form-group">
+                        <label>Описание</label>
+                        <input type="text" class="form-control" name="description"
+                               value="<%=post.getDescription()%>" id="description" title="Поле Описание не заполнено">
+                    </div>
+                    <button type="submit" class="btn btn-primary" onclick="return validate()">Сохранить</button>
                 </form>
             </div>
         </div>

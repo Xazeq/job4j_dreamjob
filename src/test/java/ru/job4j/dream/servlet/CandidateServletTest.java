@@ -29,6 +29,7 @@ public class CandidateServletTest {
         HttpServletResponse resp = mock(HttpServletResponse.class);
         when(req.getParameter("id")).thenReturn("0");
         when(req.getParameter("name")).thenReturn("candidate name");
+        when(req.getParameter("cities")).thenReturn("1");
         new CandidateServlet().doPost(req, resp);
         Candidate candidate = DbStore.instOf().findAllCandidates().stream().findFirst().get();
         assertThat(candidate, notNullValue());
@@ -41,11 +42,13 @@ public class CandidateServletTest {
         HttpServletResponse resp = mock(HttpServletResponse.class);
         when(req.getParameter("id")).thenReturn("0");
         when(req.getParameter("name")).thenReturn("candidate name");
+        when(req.getParameter("cities")).thenReturn("1");
         CandidateServlet servlet = new CandidateServlet();
         servlet.doPost(req, resp);
         Candidate oldCandidate = DbStore.instOf().findAllCandidates().stream().findFirst().get();
         when(req.getParameter("id")).thenReturn(String.valueOf(oldCandidate.getId()));
         when(req.getParameter("name")).thenReturn("new candidate name");
+        when(req.getParameter("cities")).thenReturn("1");
         servlet.doPost(req, resp);
         Candidate newCandidate = DbStore.instOf().findAllCandidates().stream().findFirst().get();
         assertThat(newCandidate, notNullValue());

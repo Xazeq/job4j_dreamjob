@@ -21,11 +21,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
     <title>Работа мечты</title>
+    <jsp:include page="/header.jsp"/>
 </head>
 <body>
 <div class="container pt-3">
     <div class="row">
-        <jsp:include page="/header.jsp"/>
         <div class="card" style="width: 100%">
             <div class="card-header">
                 Вакансии
@@ -35,6 +35,7 @@
                     <thead>
                     <tr>
                         <th scope="col">Названия</th>
+                        <th scope="col">Описание</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -45,6 +46,9 @@
                                     <i class="fa fa-edit mr-3"></i>
                                 </a>
                                 <c:out value="${post.name}"/>
+                            </td>
+                            <td>
+                                <c:out value="${post.description}"/>
                             </td>
                         </tr>
                     </c:forEach>
